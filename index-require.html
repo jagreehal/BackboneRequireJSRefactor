@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Yummy Bakes</title>
+    <meta name="description" content="Require Backbone Demo by Jag Reehal">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="js/libs/jquery.js"></script>
+    <script src="js/libs/lodash.js"></script>
+    <script src="js/libs/backbone.js"></script>
+
+</head>
+<body>
+<div id="main"></div>
+
+<script type="text/template" id="recipeModelView">
+    <h1> <%=Name %></h1>
+    <p> <%=Author %></p>
+    <img src="<%=LargeImage %>"/>
+    <hr/>
+</script>
+
+<script src="js/libs/require.js" data-main="js/main"></script>
+</body>
+</html>

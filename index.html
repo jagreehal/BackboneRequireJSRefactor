@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Yummy Bakes</title>
+    <meta name="description" content="Backbone Demo by Jag Reehal">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="js/libs/jquery.js"></script>
+    <script src="js/libs/lodash.js"></script>
+    <script src="js/libs/backbone.js"></script>
+
+</head>
+<body>
+<div id="main"></div>
+
+<script type="text/template" id="recipeModelView">
+    <h1> <%=Name %></h1>
+
+    <p> <%=Author %></p>
+    <img src="<%=LargeImage %>"/>
+    <hr/>
+</script>
+<script>
+
+    var APP = APP || {};
+    (function (APP) {
+
+        APP.RecipeModel = Backbone.Model.extend({
+            defaults: {
+                //date: new Date()
+            }
+        });
+
+        APP.RecipeCollection = Backbone.Collection.extend({
+            model: APP.RecipeModel
+        });
+
+
+        APP.RecipeModelView = Backbone.View.extend({
+            template: _.template($("#recipeModelView").html()),
+            render: function () {
+                this.el.innerHTML = this.template(this.model.toJSON());
+                return this;
+            }
+        });
+
+        APP.RecipeCollectionView = Backbone.View.extend({
+            template: _.template('<h1><%=length%> Recipes</h1>'),
+            render: function () {
+                this.el.innerHTML = this.template({ length: this.collection.length });
+                this.collection.forEach(function (model) {
+                    this.el.appendChild(new APP.RecipeModelView({ model: model}).render().el);
+                }, this);
+                return this;
+            }
+        });
+
+        var recipes = new APP.RecipeCollection([
+            { Name: "Doughnuts", Author: "Homer Simpson", 'LargeImage': "images/doughnuts_128.png" },
+            { Name: "Pumpkin Pie", Author: "Sheri Wetherell", 'LargeImage': "images/pumpkinpie_128.png" },
+            { Name: "Swiss Roll", Author: "Swiss Tony", 'LargeImage': "images/swissroll_128.png" },
+            { Name: "Croissants", Author: "Helen Pitlick", 'LargeImage': "images/croissants_128.png" },
+            { Name: "Cup Cakes", Author: "Lori Zappala", 'LargeImage': "images/cupcakes_128.png" }
+        ]);
+        $('#main').append(new APP.RecipeCollectionView({ collection: recipes }).render().el);
+
+    }(APP));
+</script>
+</body>
+</html>
